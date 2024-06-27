@@ -24,21 +24,25 @@ void setup() {
   randomSeed(analogRead(0) + analogRead(1) + analogRead(2));
 
   FastLED.addLeds<WS2812, LED_PIN, GRB>(leds, NUM_LEDS);
-
-  levelOneSetup(gameState, leds);
-
-  FastLED.show();
 }
 
 void loop() {
   if(!gameState.levelCleared)
   {
-    levelOneUpdate(gameState, leds);
+    if(gameState.currentLevel == 1){
+      if(gameState.uponNewLevel){
+        levelOneSetup(gameState, leds);
+        FastLED.show();
+        gameState.uponNewLevel = false;
+      }
+      levelOneUpdate(gameState, leds);
+    }
     gameLogic();
   }
   else
   {
     flashAllGreen();
+    Serial.println("FINISHED MONSIEUR!!!");
   }
   FastLED.show();
 }
@@ -85,6 +89,7 @@ void checkLevelCompletion() {
 }
 
 void flashAllGreen() {
+  int toggle_counter = 0;
   static unsigned long previousMillis = 0;
   static bool toggle = false;
   const unsigned long interval = 500; // Interval in milliseconds (0.5 seconds)
@@ -93,6 +98,7 @@ void flashAllGreen() {
   if (currentMillis - previousMillis >= interval) {
     previousMillis = currentMillis;
     toggle = !toggle;
+    toggle_counter++;
 
     for (int i = 0; i < NUM_LEDS; i++) {
       if (toggle) {
@@ -101,6 +107,9 @@ void flashAllGreen() {
         leds[i] = CRGB(0, 0, 0); // Black (off)
       }
     }
+  }
+  if(toggle_counter == 10){
+    return;
   }
 }
 

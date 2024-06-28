@@ -10,7 +10,6 @@ void levelOneSetup(GameState &gameState, CRGB leds[]) {
 
   gameState.score = 0;
   gameState.levelCleared = false;
-  gameState.currentLevel = 1;
 
   // Initialize LED states
   for (int i = 0; i < NUM_LEDS; i++) {

@@ -31,13 +31,17 @@ void loop() {
   if(!gameState.levelCleared)
   {
     if(gameState.uponNewLevel){
-      levelOneSetup(gameState, leds);
+      gameState.currentLevel++;
       gameState.uponNewLevel = false;
+      if(gameState.currentLevel == 1) {
+        levelOneSetup(gameState, leds);
+      }
     }
     levelOneUpdate(gameState, leds);
     gameLogic();
     FastLED.show();
   }
+
   else
   {
     flashAllGreen();

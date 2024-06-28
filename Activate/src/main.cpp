@@ -30,14 +30,11 @@ void setup() {
 void loop() {
   if(!gameState.levelCleared)
   {
-    if(gameState.currentLevel == 1){
-      if(gameState.uponNewLevel){
-        levelOneSetup(gameState, leds);
-        FastLED.show();
-        gameState.uponNewLevel = false;
-      }
-      levelOneUpdate(gameState, leds);
+    if(gameState.uponNewLevel){
+      levelOneSetup(gameState, leds);
+      gameState.uponNewLevel = false;
     }
+    levelOneUpdate(gameState, leds);
     gameLogic();
     FastLED.show();
   }

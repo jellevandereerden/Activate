@@ -9,6 +9,7 @@ GameState gameState;
 void gameLogic();
 void checkLevelCompletion();
 void flashAllGreen();
+void turnOfLeds();
 std::pair<int, int> findValue(int value);
 bool pressure_detection(uint8_t analog_pin);
 int readMux(int channel);
@@ -35,12 +36,13 @@ void loop() {
   {
     levelOneUpdate(gameState, leds);
     gameLogic();
+    FastLED.show();
   }
   else
   {
     flashAllGreen();
+    turnOfLeds();
   }
-  FastLED.show();
 }
 
 void gameLogic(){
@@ -85,15 +87,8 @@ void checkLevelCompletion() {
 }
 
 void flashAllGreen() {
-  static unsigned long previousMillis = 0;
   static bool toggle = false;
-  const unsigned long interval = 500; // Interval in milliseconds (0.5 seconds)
-
-  unsigned long currentMillis = millis();
-  if (currentMillis - previousMillis >= interval) {
-    previousMillis = currentMillis;
-    toggle = !toggle;
-
+  for (int times = 0; times < 10; times++) {
     for (int i = 0; i < NUM_LEDS; i++) {
       if (toggle) {
         leds[i] = CRGB(0, 255, 0); // Green color
@@ -101,7 +96,18 @@ void flashAllGreen() {
         leds[i] = CRGB(0, 0, 0); // Black (off)
       }
     }
+    FastLED.show();
+    toggle = !toggle;
+    delay(500);
   }
+}
+
+void turnOfLeds() {
+  for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i] = CRGB(0, 0, 0);
+  }
+  FastLED.show();
+  delay(5000);
 }
 
 std::pair<int, int> findValue(int value) {

@@ -25,16 +25,19 @@ void setup() {
   randomSeed(analogRead(0) + analogRead(1) + analogRead(2));
 
   FastLED.addLeds<WS2812, LED_PIN, GRB>(leds, NUM_LEDS);
-
-  levelOneSetup(gameState, leds);
-
-  FastLED.show();
 }
 
 void loop() {
   if(!gameState.levelCleared)
   {
-    levelOneUpdate(gameState, leds);
+    if(gameState.currentLevel == 1){
+      if(gameState.uponNewLevel){
+        levelOneSetup(gameState, leds);
+        FastLED.show();
+        gameState.uponNewLevel = false;
+      }
+      levelOneUpdate(gameState, leds);
+    }
     gameLogic();
     FastLED.show();
   }

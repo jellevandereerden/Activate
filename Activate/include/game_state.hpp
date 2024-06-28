@@ -9,6 +9,7 @@
 
 // Define the structure to hold the game state
 struct GameState {
+  bool uponNewLevel = true;
   int currentLevel;
   int score = 0;
   bool levelCleared = false;

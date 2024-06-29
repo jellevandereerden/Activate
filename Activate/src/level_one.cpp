@@ -3,6 +3,9 @@
 #include "level_one.hpp"
 #include <Arduino.h>
 
+static int currentRedRow = 0;
+static bool directionDown = true;
+
 void levelOneSetup(GameState &gameState, CRGB leds[]) {
 
   // Set up LEDs
@@ -14,9 +17,6 @@ void levelOneSetup(GameState &gameState, CRGB leds[]) {
   for (int i = 0; i < NUM_LEDS; i++) {
     gameState.purpleStates[i] = false;
   }
-  
-  gameState.currentRedRow = 0;
-  gameState.directionDown = true;
 
   setRandomPurple(gameState, leds);
 }
@@ -34,17 +34,17 @@ void setRowBlue(GameState &gameState, CRGB leds[], int row) {
 }
 
 void moveToNextRow(GameState &gameState) {
-  if (gameState.directionDown) {
-    gameState.currentRedRow++;
-    if (gameState.currentRedRow >= ROWS) {
-      gameState.currentRedRow = ROWS - 1;
-      gameState.directionDown = false; // Change direction to up
+  if (directionDown) {
+    currentRedRow++;
+    if (currentRedRow >= ROWS) {
+      currentRedRow = ROWS - 1;
+      directionDown = false; // Change direction to up
     }
   } else {
-    gameState.currentRedRow--;
-    if (gameState.currentRedRow < 0) {
-      gameState.currentRedRow = 0;
-      gameState.directionDown = true; // Change direction to down
+    currentRedRow--;
+    if (currentRedRow < 0) {
+      currentRedRow = 0;
+      directionDown = true; // Change direction to down
     }
   }
 }
@@ -67,8 +67,8 @@ void levelOneUpdate(GameState &gameState, CRGB leds[]) {
     Serial.println(gameState.score);
     Serial.println("-----------------");
 
-    setRowBlue(gameState, leds, gameState.currentRedRow);
+    setRowBlue(gameState, leds, currentRedRow);
     moveToNextRow(gameState);
-    setRowRed(gameState, leds, gameState.currentRedRow);
+    setRowRed(gameState, leds, currentRedRow);
   }
 }

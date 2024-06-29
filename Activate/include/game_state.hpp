@@ -33,10 +33,6 @@ struct GameState {
   bool purpleStates[NUM_LEDS] = {false};
   unsigned long previousMillis = 0;
   unsigned long interval = 1000;
-  int currentRedRow = 0; // Start with the first row
-  int currentRedCol = 0; //Start with the first column
-  bool directionDown = true; // Direction of the moving bar (true = down, false = up)
-  bool directionRight = true;
   int s0 = 12;
   int s1 = 11;
   int s2 = 10;

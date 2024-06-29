@@ -3,6 +3,9 @@
 #include "level_two.hpp"
 #include <Arduino.h>
 
+static int currentRedCol = 0;
+static bool directionRight = true;
+
 void levelTwoSetup(GameState &gameState, CRGB leds[]) {
 
   // Set up LEDs
@@ -14,9 +17,6 @@ void levelTwoSetup(GameState &gameState, CRGB leds[]) {
   for (int i = 0; i < NUM_LEDS; i++) {
     gameState.purpleStates[i] = false;
   }
-
-  gameState.currentRedCol = 0;
-  gameState.directionRight = true;
 
   setRandomPurple(gameState, leds);
 }
@@ -34,17 +34,17 @@ void setColBlue(GameState &gameState, CRGB leds[], int col) {
 }
 
 void moveToNextCol(GameState &gameState) {
-  if (gameState.directionRight) {
-    gameState.currentRedCol++;
-    if (gameState.currentRedCol >= COLS) {
-      gameState.currentRedCol = COLS - 1;
-      gameState.directionRight = false; // Change direction to left
+  if (directionRight) {
+    currentRedCol++;
+    if (currentRedCol >= COLS) {
+      currentRedCol = COLS - 1;
+      directionRight = false; // Change direction to left
     }
   } else {
-    gameState.currentRedCol--;
-    if (gameState.currentRedCol < 0) {
-      gameState.currentRedCol = 0;
-      gameState.directionRight = true; // Change direction to right
+    currentRedCol--;
+    if (currentRedCol < 0) {
+      currentRedCol = 0;
+      directionRight = true; // Change direction to right
     }
   }
 }
@@ -66,8 +66,8 @@ void levelTwoUpdate(GameState &gameState, CRGB leds[]) {
     Serial.println(gameState.score);
     Serial.println("-----------------");
 
-    setColBlue(gameState, leds, gameState.currentRedCol);
+    setColBlue(gameState, leds, currentRedCol);
     moveToNextCol(gameState);
-    setColRed(gameState, leds, gameState.currentRedCol);
+    setColRed(gameState, leds, currentRedCol);
   }
 }

@@ -6,20 +6,20 @@
 static int currentRedRow = 0;
 static bool directionDown = true;
 
-void levelOneSetup(GameState &gameState, CRGB leds[]) {
+// void levelOneSetup(GameState &gameState, CRGB leds[]) {
 
-  // Set up LEDs
-  setAllBlue(leds);
+//   // Set up LEDs
+//   setAllBlue(leds);
 
-  gameState.levelCleared = false;
+//   gameState.levelCleared = false;
 
-  // Initialize LED states
-  for (int i = 0; i < NUM_LEDS; i++) {
-    gameState.purpleStates[i] = false;
-  }
+//   // Initialize LED states
+//   for (int i = 0; i < NUM_LEDS; i++) {
+//     gameState.purpleStates[i] = false;
+//   }
 
-  setRandomPurple(gameState, leds);
-}
+//   setRandomPurple(gameState, leds);
+// }
 
 void setRowBlue(GameState &gameState, CRGB leds[], int row) {
   for (int col = 0; col < COLS; col++) {
@@ -62,11 +62,7 @@ void levelOneUpdate(GameState &gameState, CRGB leds[]) {
   if (currentMillis - gameState.previousMillis >= gameState.interval) {
     gameState.previousMillis = currentMillis;
 
-    // Update game state
-    Serial.print("Current score = ");
-    Serial.println(gameState.score);
-    Serial.println("-----------------");
-
+    printScore(gameState);
     setRowBlue(gameState, leds, currentRedRow);
     moveToNextRow(gameState);
     setRowRed(gameState, leds, currentRedRow);

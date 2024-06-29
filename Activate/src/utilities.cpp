@@ -51,3 +51,24 @@ void turnOffLeds(CRGB leds[]) {
     FastLED.show();
     delay(5000);
 }
+
+void printScore(GameState &gameState) {
+    Serial.print("Current score = ");
+    Serial.println(gameState.score);
+    Serial.println("-----------------");
+}
+
+void levelSetup(GameState &gameState, CRGB leds[]) {
+
+  // Set up LEDs
+  setAllBlue(leds);
+
+  gameState.levelCleared = false;
+
+  // Initialize LED states
+  for (int i = 0; i < NUM_LEDS; i++) {
+    gameState.purpleStates[i] = false;
+  }
+
+  setRandomPurple(gameState, leds);
+}

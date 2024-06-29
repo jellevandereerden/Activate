@@ -4,6 +4,7 @@
 
 #include "level_one.hpp"
 #include "level_two.hpp"
+#include "level_three.hpp"
 
 CRGB leds[NUM_LEDS];
 
@@ -33,19 +34,27 @@ void setup() {
 void loop() {
   if(!gameState.levelCleared)
   {
+    if(gameState.uponNewLevel){
+      levelSetup(gameState, leds);
+      gameState.uponNewLevel = false;
+    }
     if(gameState.currentLevel == 1) {
       if(gameState.uponNewLevel){
-        levelOneSetup(gameState, leds);
         gameState.uponNewLevel = false;
       }
       levelOneUpdate(gameState, leds);
     }
     else if(gameState.currentLevel == 2) {
       if(gameState.uponNewLevel){
-        levelTwoSetup(gameState, leds);
         gameState.uponNewLevel = false;
       }
       levelTwoUpdate(gameState, leds);
+    }
+    else if(gameState.currentLevel == 3) {
+      if(gameState.uponNewLevel){
+        gameState.uponNewLevel = false;
+      }
+      levelThreeUpdate(gameState, leds);
     }
     gameLogic();
     FastLED.show();

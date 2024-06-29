@@ -15,7 +15,7 @@ struct GameState {
   int currentLevel = 1;
   int score = 0;
   bool levelCleared = false;
-  int pointPanels[5] = {};
+  int pointPanels[1] = {};
   int ledPins[ROWS][COLS] = {
     {0, 5, 10},
     {1, 6, 11},

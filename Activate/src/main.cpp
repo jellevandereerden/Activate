@@ -1,7 +1,9 @@
 #include <FastLED.h>
-#include "level_one.hpp"
 #include "game_state.hpp"
 #include "utilities.hpp"
+
+#include "level_one.hpp"
+#include "level_two.hpp"
 
 CRGB leds[NUM_LEDS];
 
@@ -38,6 +40,13 @@ void loop() {
       }
       levelOneUpdate(gameState, leds);
     }
+    else if(gameState.currentLevel == 2) {
+      if(gameState.uponNewLevel){
+        levelTwoSetup(gameState, leds);
+        gameState.uponNewLevel = false;
+      }
+      levelTwoUpdate(gameState, leds);
+    }
     gameLogic();
     FastLED.show();
   }
@@ -47,6 +56,7 @@ void loop() {
     turnOffLeds(leds);
     gameState.uponNewLevel = true;
     gameState.currentLevel++;
+    gameState.levelCleared = false;
   }
 }
 

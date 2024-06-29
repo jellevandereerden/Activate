@@ -1,12 +1,13 @@
-// // level_two.hpp
-// #pragma once
+// level_two.hpp
+#pragma once
 
-// #include <FastLED.h>
-// #include "game_state.hpp"
+#include <FastLED.h>
+#include "game_state.hpp"
+#include "utilities.hpp"
 
-// struct GameState;
+struct GameState;
 
-// // Function prototypes
-// void levelTwoSetup(GameState &gameState, CRGB leds[]);
-// void levelTwoUpdate(GameState &gameState, CRGB leds[]);
-// void setRandomPurple(GameState &gameState, CRGB leds[]);
+// Function prototypes
+void levelTwoSetup(GameState &gameState, CRGB leds[]);
+void levelTwoUpdate(GameState &gameState, CRGB leds[]);
+void setRandomPurple(GameState &gameState, CRGB leds[]);

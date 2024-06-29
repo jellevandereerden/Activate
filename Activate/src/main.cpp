@@ -83,7 +83,7 @@ void gameLogic(){
           leds[panel] = CRGB(0, 255, 0); // Turn on LED into green
         }
       } else {
-        leds[panel] = CRGB(255, 255, 0); // Turn on LED into yellow (TODO: Implement blinking)
+        flassYellow(gameState, leds, panel);
       }
     } else {
       std::pair<int, int> result = findValue(panel);

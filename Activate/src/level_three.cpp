@@ -1,8 +1,11 @@
 #include "level_three.hpp"
 #include <Arduino.h>
 
-static int currentRedIndex = 0;
-static bool directionForward = true;
+// static int currentRedIndex = 0;
+static bool directionRightUp = true;
+static int ledIndex;
+static int multiply;
+static int counter;
 
 void levelThreeUpdate(GameState &gameState, CRGB leds[]) {
     unsigned long currentMillis = millis();
@@ -12,22 +15,30 @@ void levelThreeUpdate(GameState &gameState, CRGB leds[]) {
         printScore(gameState);
         Serial.println("LOLLLEOEOEOELELELE");
 
-        // Set previous LED position to blue and update gameState.redStates
-        leds[gameState.ledPins[currentRedIndex][0]] = CRGB(0, 0, 255);
-        gameState.redStates[currentRedIndex][0] = false;
-
-        // Move to the next LED index in the back and forth pattern
-        if (directionForward) {
-            currentRedIndex = 1;  // Move forward to index 1
-        } else {
-            currentRedIndex = 0;  // Move backward to index 0
+        if (directionRightUp){
+            multiply = 1;
+        }
+        else {
+            multiply = -1;
         }
 
-        // Set current LED position to red and update gameState.redStates
-        leds[gameState.ledPins[currentRedIndex][0]] = CRGB(255, 0, 0);
-        gameState.redStates[currentRedIndex][0] = true;
+        for(int i = 0; i < ROWS - 1; i++) {
+            int index = 0;
+            while(index <= i) {
+                ledIndex = gameState.ledPins[i-index][index];
+                leds[ledIndex] = CRGB(255, 0, 0);
+                gameState.ledPins[i-index][index] = true;
+            }
+            counter ++;
+        }
 
-        // Toggle direction for the next update
-        directionForward = !directionForward;
+        for(int i = 0; i < ((COLS - 1) - counter); i++) {
+            for(int rows = 0; rows < ROWS; rows++) {
+                ledIndex = gameState.ledPins[0+rows][3+i-rows];
+                leds[ledIndex] = CRGB(255, 0, 0);
+            }
+        }
+
+        
     }
 }

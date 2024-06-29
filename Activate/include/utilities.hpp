@@ -9,3 +9,4 @@ void flashAllGreen(CRGB leds[]);
 void turnOffLeds(CRGB leds[]);
 void printScore(GameState &gameState);
 void levelSetup(GameState &gameState, CRGB leds[]);
+void flassYellow(GameState &gameState, CRGB leds[], int panel);

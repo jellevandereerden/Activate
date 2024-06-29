@@ -72,3 +72,16 @@ void levelSetup(GameState &gameState, CRGB leds[]) {
 
   setRandomPurple(gameState, leds);
 }
+
+void flassYellow(GameState &gameState, CRGB leds[], int panel) {
+    unsigned long currentMillis = millis();
+    if (currentMillis - gameState.previousMillis >= gameState.yellowinterval) {
+        gameState.previousMillis = currentMillis;
+
+        if (leds[panel] == CRGB::Yellow) {
+        leds[panel] = CRGB::Black; // Turn off if currently yellow
+        } else {
+        leds[panel] = CRGB::Yellow; // Turn yellow if currently off
+        }
+    }
+}

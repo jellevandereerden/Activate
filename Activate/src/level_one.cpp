@@ -64,7 +64,7 @@ void levelOneUpdate(GameState &gameState, CRGB leds[]) {
     gameState.previousMillis = currentMillis;
 
     // Update game state
-    Serial.print("SCORENNNNTJU = ");
+    Serial.print("Current score = ");
     Serial.println(gameState.score);
     Serial.println("-----------------");
 

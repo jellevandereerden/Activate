@@ -30,22 +30,22 @@ void setup() {
 void loop() {
   if(!gameState.levelCleared)
   {
-    if(gameState.uponNewLevel){
-      gameState.currentLevel++;
-      gameState.uponNewLevel = false;
-      if(gameState.currentLevel == 1) {
+    if(gameState.currentLevel == 1) {
+      if(gameState.uponNewLevel){
         levelOneSetup(gameState, leds);
+        gameState.uponNewLevel = false;
       }
+      levelOneUpdate(gameState, leds);
     }
-    levelOneUpdate(gameState, leds);
     gameLogic();
     FastLED.show();
   }
-
   else
   {
     flashAllGreen();
     turnOfLeds();
+    gameState.uponNewLevel = true;
+    gameState.currentLevel++;
   }
 }
 
@@ -84,7 +84,8 @@ void gameLogic(){
 void checkLevelCompletion() {
   if (gameState.score == sizeof(gameState.pointPanels) / sizeof(gameState.pointPanels[0])) {
     Serial.println("----------------------------------------------");
-    Serial.println("GEWONNNNENNNNNNNNNNNNNN");
+    Serial.print("CONGRATZ, YOUR GOING TO LEVEL: ");
+    Serial.print(gameState.currentLevel + 2);
     Serial.println("----------------------------------------------");
     gameState.levelCleared = true;
   }

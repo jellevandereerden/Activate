@@ -1,6 +1,7 @@
 #include <FastLED.h>
 #include "level_one.hpp"
 #include "game_state.hpp"
+#include "utilities.hpp"
 
 CRGB leds[NUM_LEDS];
 
@@ -8,8 +9,8 @@ GameState gameState;
 
 void gameLogic();
 void checkLevelCompletion();
-void flashAllGreen();
-void turnOfLeds();
+// void flashAllGreen();
+// void turnOfLeds();
 std::pair<int, int> findValue(int value);
 bool pressure_detection(uint8_t analog_pin);
 int readMux(int channel);
@@ -42,8 +43,8 @@ void loop() {
   }
   else
   {
-    flashAllGreen();
-    turnOfLeds();
+    flashAllGreen(leds);
+    turnOffLeds(leds);
     gameState.uponNewLevel = true;
     gameState.currentLevel++;
   }
@@ -82,37 +83,13 @@ void gameLogic(){
 }
 
 void checkLevelCompletion() {
-  if (gameState.score == sizeof(gameState.pointPanels) / sizeof(gameState.pointPanels[0])) {
+  if (gameState.score == static_cast<int>(sizeof(gameState.pointPanels) / sizeof(gameState.pointPanels[0])) * gameState.currentLevel) {
     Serial.println("----------------------------------------------");
     Serial.print("CONGRATZ, YOUR GOING TO LEVEL: ");
-    Serial.print(gameState.currentLevel + 2);
+    Serial.print(gameState.currentLevel + 1);
     Serial.println("----------------------------------------------");
     gameState.levelCleared = true;
   }
-}
-
-void flashAllGreen() {
-  static bool toggle = false;
-  for (int times = 0; times < 10; times++) {
-    for (int i = 0; i < NUM_LEDS; i++) {
-      if (toggle) {
-        leds[i] = CRGB(0, 255, 0); // Green color
-      } else {
-        leds[i] = CRGB(0, 0, 0); // Black (off)
-      }
-    }
-    FastLED.show();
-    toggle = !toggle;
-    delay(500);
-  }
-}
-
-void turnOfLeds() {
-  for (int i = 0; i < NUM_LEDS; i++) {
-    leds[i] = CRGB(0, 0, 0);
-  }
-  FastLED.show();
-  delay(5000);
 }
 
 std::pair<int, int> findValue(int value) {

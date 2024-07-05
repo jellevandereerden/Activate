@@ -84,6 +84,28 @@ void handleSerialInput() {
       flashBlueAndOff();
       resetGame(); // Call the function to flash blue and off
     }
+    else if (command.startsWith("GOTO LEVEL")) {
+      // Extract the level number from the command
+      int level = -1; // Initialize with an invalid level number
+      int indexOfLevel = command.lastIndexOf(' ');
+      if (indexOfLevel != -1 && indexOfLevel + 1 < static_cast<int>(command.length())) {
+        String levelString = command.substring(indexOfLevel + 1);
+        level = levelString.toInt(); // Convert string to integer
+      }
+
+      // Validate the level number and proceed accordingly
+      if (level >= 1 && level <= 3) {
+        gameState.currentLevel = level;
+        gameState.uponNewLevel = true;
+        gameState.levelCleared = false; // Assume level is cleared to trigger setup
+      } else {
+        Serial.println("Invalid level number!");
+      }
+    }
+    // Handle other commands as needed
+    else {
+      Serial.println("Unknown command!");
+    }
   }
 }
 

@@ -10,10 +10,11 @@ CRGB leds[NUM_LEDS];
 
 GameState gameState;
 
+void flashBlueAndOff();
+void handleSerialInput();
+void resetGame();
 void gameLogic();
 void checkLevelCompletion();
-// void flashAllGreen();
-// void turnOfLeds();
 std::pair<int, int> findValue(int value);
 bool pressure_detection(uint8_t analog_pin);
 int readMux(int channel);
@@ -32,6 +33,9 @@ void setup() {
 }
 
 void loop() {
+
+  handleSerialInput();
+
   if(!gameState.levelCleared)
   {
     if(gameState.uponNewLevel){
@@ -69,6 +73,43 @@ void loop() {
   }
 }
 
+void handleSerialInput() {
+  if (Serial.available() > 0) {
+    String command = Serial.readStringUntil('\n');
+    command.trim();
+    if (command.length() > 0) { // Check if the command is not empty
+      Serial.println(command);
+    }
+    if (command == "RESTART") {
+      flashBlueAndOff();
+      resetGame(); // Call the function to flash blue and off
+    }
+  }
+}
+
+void flashBlueAndOff() {
+  for (int i = 0; i < 6; ++i) {
+    for (int j = 0; j < NUM_LEDS; ++j) {
+      leds[j] = CRGB::Blue;
+    }
+    FastLED.show();
+    delay(500);
+
+    for (int j = 0; j < NUM_LEDS; ++j) {
+      leds[j] = CRGB::Black;
+    }
+    FastLED.show();
+    delay(500);
+  }
+}
+
+void resetGame() {
+  gameState.currentLevel = 1;
+  gameState.levelCleared = false;
+  gameState.score = 0;
+  gameState.uponNewLevel = true;
+}
+
 void gameLogic(){
   for (int panel = 0; panel < SENSOR_AMOUNT; panel++) {
     if (pressure_detection(panel)) {
@@ -83,8 +124,8 @@ void gameLogic(){
           leds[panel] = CRGB(0, 255, 0); // Turn on LED into green
         }
       } else {
-        flassYellow(gameState, leds, panel);
-      }
+        flashYellow(gameState, leds, panel);
+        }
     } else {
       std::pair<int, int> result = findValue(panel);
       if (gameState.redStates[result.first][result.second]) {
@@ -124,6 +165,8 @@ std::pair<int, int> findValue(int value) {
 
 bool pressure_detection(uint8_t analog_pin) {
   int pressure = readMux(analog_pin);
+  // Serial.println("Pressure = ");
+  // Serial.println(pressure);
   return (abs(pressure) > THRESHOLD_FACTOR);
 }
 

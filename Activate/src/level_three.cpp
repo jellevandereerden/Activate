@@ -12,8 +12,7 @@ void levelThreeUpdate(GameState &gameState, CRGB leds[]) {
     if (currentMillis - gameState.previousMillis >= gameState.interval) {
         gameState.previousMillis = currentMillis;
 
-        printScore(gameState);
-        Serial.println("LOLLLEOEOEOELELELE");
+        // printScore(gameState);
 
         if (directionRightUp){
             multiply = 1;

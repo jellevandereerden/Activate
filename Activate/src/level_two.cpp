@@ -6,21 +6,6 @@
 static int currentRedCol = 0;
 static bool directionRight = true;
 
-// void levelTwoSetup(GameState &gameState, CRGB leds[]) {
-
-//   // Set up LEDs
-//   setAllBlue(leds);
-
-//   gameState.levelCleared = false;
-
-//   // Initialize LED states
-//   for (int i = 0; i < NUM_LEDS; i++) {
-//     gameState.purpleStates[i] = false;
-//   }
-
-//   setRandomPurple(gameState, leds);
-// }
-
 void setColBlue(GameState &gameState, CRGB leds[], int col) {
   for (int row = 0; row < ROWS; row++) {
     int ledIndex = gameState.ledPins[row][col];
@@ -61,7 +46,7 @@ void levelTwoUpdate(GameState &gameState, CRGB leds[]) {
   if (currentMillis - gameState.previousMillis >= gameState.interval) {
     gameState.previousMillis = currentMillis;
 
-    printScore(gameState);
+    // printScore(gameState);
     setColBlue(gameState, leds, currentRedCol);
     moveToNextCol(gameState);
     setColRed(gameState, leds, currentRedCol);

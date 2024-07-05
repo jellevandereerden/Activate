@@ -32,6 +32,7 @@ struct GameState {
   };
   bool purpleStates[NUM_LEDS] = {false};
   unsigned long previousMillis = 0;
+  unsigned long previousMillisYellow = 0;
   unsigned long interval = 1000;
   unsigned long yellowinterval = 100;
   int s0 = 12;

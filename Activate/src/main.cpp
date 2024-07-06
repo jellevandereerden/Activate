@@ -65,11 +65,7 @@ void loop() {
   }
   else
   {
-    flashAllGreen(leds);
-    turnOffLeds(leds);
-    gameState.uponNewLevel = true;
-    gameState.currentLevel++;
-    gameState.levelCleared = false;
+    clearLevel(leds, gameState);
   }
 }
 
@@ -135,12 +131,16 @@ void resetGame() {
 void gameLogic(){
   for (int panel = 0; panel < SENSOR_AMOUNT; panel++) {
     if (pressure_detection(panel)) {
+      // Serial.print("PRESSURE DETECTED, PANEL: ");
+      // Serial.println(panel);
       std::pair<int, int> result = findValue(panel);
       if (!gameState.redStates[result.first][result.second]) {
         for (size_t k = 0; k < sizeof(gameState.pointPanels) / sizeof(gameState.pointPanels[0]); k++) {
           if (panel == gameState.pointPanels[k]) {
             gameState.pointPanels[k] = -1;
             gameState.score += 1;
+            Serial.print("SCORE: ");
+            Serial.println(gameState.score);
             gameState.purpleStates[panel] = false;
           }
           leds[panel] = CRGB(0, 255, 0); // Turn on LED into green

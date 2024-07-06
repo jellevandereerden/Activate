@@ -76,6 +76,7 @@ void levelSetup(GameState &gameState, CRGB leds[]) {
 void flashYellow(GameState &gameState, CRGB leds[], int panel) {
     unsigned long currentMillisYellow = millis();
     if (currentMillisYellow - gameState.previousMillisYellow >= gameState.yellowinterval) {
+        Serial.println("FAULT");
         gameState.previousMillisYellow = currentMillisYellow;
         if (leds[panel] == CRGB::Yellow) {
         leds[panel] = CRGB::Black; // Turn off if currently yellow
@@ -83,4 +84,14 @@ void flashYellow(GameState &gameState, CRGB leds[], int panel) {
         leds[panel] = CRGB::Yellow; // Turn yellow if currently off
         }
     }
+}
+
+void clearLevel(CRGB leds[], GameState &gameState){
+  flashAllGreen(leds);
+  turnOffLeds(leds);
+  gameState.uponNewLevel = true;
+  gameState.currentLevel++;
+  gameState.levelCleared = false;
+  Serial.print("LEVEL: ");
+  Serial.println(gameState.currentLevel);
 }

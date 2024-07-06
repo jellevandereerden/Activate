@@ -126,6 +126,10 @@ void resetGame() {
   gameState.levelCleared = false;
   gameState.score = 0;
   gameState.uponNewLevel = true;
+  Serial.print("SCORE: ");
+  Serial.println(gameState.score);
+  Serial.print("LEVEL: ");
+  Serial.println(gameState.currentLevel);
 }
 
 void gameLogic(){

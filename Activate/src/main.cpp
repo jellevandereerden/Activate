@@ -91,6 +91,7 @@ void handleSerialInput() {
 
       // Validate the level number and proceed accordingly
       if (level >= 1 && level <= 3) {
+        flashBlueAndOff();
         gameState.currentLevel = level;
         gameState.uponNewLevel = true;
         gameState.levelCleared = false; // Assume level is cleared to trigger setup

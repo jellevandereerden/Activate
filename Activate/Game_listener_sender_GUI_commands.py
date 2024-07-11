@@ -131,7 +131,8 @@ def command_line_input():
     print("Exiting command line input.")
 
 if __name__ == "__main__":
-    serial_port = 'COM4'  # Specify your desired serial port here
+    serial_port = '/dev/ttyACM0'  # 'COM4' for Windows PC, '/dev/ttyACM0' for Pi.
+. Specify your desired serial port here
 
     # Initialize serial connection
     try:

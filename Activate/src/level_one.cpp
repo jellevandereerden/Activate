@@ -9,8 +9,8 @@ static bool directionDown = true;
 void setRowBlue(GameState &gameState, CRGB leds[], int row) {
   for (int col = 0; col < COLS; col++) {
     int ledIndex = gameState.ledPins[row][col];
-    if (gameState.purpleStates[ledIndex]) {
-      leds[ledIndex] = CRGB(255, 255, 255); // Set to purple if it was originally purple
+    if (gameState.whiteStates[ledIndex]) {
+      leds[ledIndex] = CRGB(255, 255, 255); // Set to white if it was originally white
     } else {
       leds[ledIndex] = CRGB(0, 0, 255); // Set to blue otherwise
     }

@@ -4,7 +4,7 @@
 #include <FastLED.h>
 
 void setAllBlue(CRGB leds[]);
-void setRandomPurple(GameState &gameState, CRGB leds[]);
+void setRandomWhite(GameState &gameState, CRGB leds[]);
 void flashAllGreen(CRGB leds[]);
 void turnOffLeds(CRGB leds[]);
 void printScore(GameState &gameState);

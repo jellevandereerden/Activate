@@ -145,7 +145,7 @@ void gameLogic(){
             gameState.score += 1;
             Serial.print("SCORE: ");
             Serial.println(gameState.score);
-            gameState.purpleStates[panel] = false;
+            gameState.whiteStates[panel] = false;
           }
           leds[panel] = CRGB(0, 255, 0); // Turn on LED into green
         }
@@ -157,8 +157,8 @@ void gameLogic(){
       if (gameState.redStates[result.first][result.second]) {
         leds[panel] = CRGB(255, 0, 0); // If it was red, keep it red
       } else {
-        if (gameState.purpleStates[panel]) {
-          leds[panel] = CRGB(255, 255, 255); // Restore to purple if originally purple
+        if (gameState.whiteStates[panel]) {
+          leds[panel] = CRGB(255, 255, 255); // Restore to white if originally white
         } else {
           leds[panel] = CRGB(0, 0, 255); // Otherwise restore to blue
         }

@@ -5,6 +5,7 @@
 #include "level_one.hpp"
 #include "level_two.hpp"
 #include "level_three.hpp"
+#include "level_four.hpp"
 
 CRGB leds[NUM_LEDS];
 
@@ -44,21 +45,31 @@ void loop() {
     }
     if(gameState.currentLevel == 1) {
       if(gameState.uponNewLevel){
+        levelSetup(gameState, leds);
         gameState.uponNewLevel = false;
       }
       levelOneUpdate(gameState, leds);
     }
     else if(gameState.currentLevel == 2) {
       if(gameState.uponNewLevel){
+        levelSetup(gameState, leds);
         gameState.uponNewLevel = false;
       }
       levelTwoUpdate(gameState, leds);
     }
     else if(gameState.currentLevel == 3) {
       if(gameState.uponNewLevel){
+        levelSetup(gameState, leds);
         gameState.uponNewLevel = false;
       }
       levelThreeUpdate(gameState, leds);
+    }
+    else if(gameState.currentLevel == 4) {
+      if(gameState.uponNewLevel){
+        levelSetup(gameState, leds);
+        gameState.uponNewLevel = false;
+      }
+      levelFourUpdate(gameState, leds);
     }
     gameLogic();
     FastLED.show();
@@ -127,6 +138,7 @@ void resetGame() {
   gameState.levelCleared = false;
   gameState.score = 0;
   gameState.uponNewLevel = true;
+  gameState.lives = 10;
   Serial.print("SCORE: ");
   Serial.println(gameState.score);
   Serial.print("LEVEL: ");
@@ -151,6 +163,7 @@ void gameLogic(){
           leds[panel] = CRGB(0, 255, 0); // Turn on LED into green
         }
       } else {
+        gameState.lives --;
         flashYellow(gameState, leds, panel);
         }
     } else {

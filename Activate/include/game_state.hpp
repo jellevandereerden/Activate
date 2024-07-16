@@ -13,6 +13,7 @@
 struct GameState {
   bool uponNewLevel = true;
   int currentLevel = 1;
+  int lives = 10;
   int score = 0;
   bool levelCleared = false;
   int pointPanels[5] = {};

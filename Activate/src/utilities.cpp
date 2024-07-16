@@ -95,3 +95,8 @@ void clearLevel(CRGB leds[], GameState &gameState){
   Serial.print("LEVEL: ");
   Serial.println(gameState.currentLevel);
 }
+
+void setLEDColor(GameState &gameState, CRGB leds[], int row, int col, CRGB color) {
+    int ledIndex = gameState.ledPins[row][col];
+    leds[ledIndex] = color;
+}

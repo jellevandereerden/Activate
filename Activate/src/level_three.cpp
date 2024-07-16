@@ -1,43 +1,52 @@
 #include "level_three.hpp"
 #include <Arduino.h>
 
-// static int currentRedIndex = 0;
-static bool directionRightUp = true;
-static int ledIndex;
-static int multiply;
-static int counter;
+int redIndexes[ROWS*COLS][2] = {
+    {1, 1}, {2, 1}, {3, 1}, 
+    {4, 1}, {4, 2}, {3, 2}, 
+    {2, 2}, {1, 2}, {0, 2},
+    {0, 1}, {0, 0}, {1, 0},
+    {2, 0}, {3, 0}, {4, 0}
+};
+
+static int currentRedIndex = 0;
+static bool directionForward = true;
 
 void levelThreeUpdate(GameState &gameState, CRGB leds[]) {
     unsigned long currentMillis = millis();
-    if (currentMillis - gameState.previousMillis >= gameState.interval) {
+    if (currentMillis - gameState.previousMillis >= (gameState.interval / 4)) {
         gameState.previousMillis = currentMillis;
 
-        // printScore(gameState);
-
-        if (directionRightUp){
-            multiply = 1;
+        // Reset the previous LED to its original color
+        int previousRow = redIndexes[currentRedIndex][0];
+        int previousCol = redIndexes[currentRedIndex][1];
+        int previousLedIndex = gameState.ledPins[previousRow][previousCol];
+        if (gameState.whiteStates[previousLedIndex]) {
+            setLEDColor(gameState, leds, previousRow, previousCol, CRGB(255, 255, 255)); // Set to white
+        } else {
+            setLEDColor(gameState, leds, previousRow, previousCol, CRGB(0, 0, 255)); // Set to blue
         }
-        else {
-            multiply = -1;
-        }
+        gameState.redStates[previousRow][previousCol] = false;
 
-        for(int i = 0; i < ROWS - 1; i++) {
-            int index = 0;
-            while(index <= i) {
-                ledIndex = gameState.ledPins[i-index][index];
-                leds[ledIndex] = CRGB(255, 0, 0);
-                gameState.ledPins[i-index][index] = true;
+        // Update the index
+        if (directionForward) {
+            currentRedIndex++;
+            if (currentRedIndex >= ROWS * COLS) {
+                currentRedIndex = ROWS * COLS - 1;
+                directionForward = false; // Change direction to backward
             }
-            counter ++;
-        }
-
-        for(int i = 0; i < ((COLS - 1) - counter); i++) {
-            for(int rows = 0; rows < ROWS; rows++) {
-                ledIndex = gameState.ledPins[0+rows][3+i-rows];
-                leds[ledIndex] = CRGB(255, 0, 0);
+        } else {
+            currentRedIndex--;
+            if (currentRedIndex < 0) {
+                currentRedIndex = 0;
+                directionForward = true; // Change direction to forward
             }
         }
 
-        
+        // Set the current LED to red
+        int currentRow = redIndexes[currentRedIndex][0];
+        int currentCol = redIndexes[currentRedIndex][1];
+        setLEDColor(gameState, leds, currentRow, currentCol, CRGB(255, 0, 0)); // Set to red
+        gameState.redStates[currentRow][currentCol] = true;
     }
 }

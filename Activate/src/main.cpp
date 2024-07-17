@@ -71,6 +71,9 @@ void loop() {
       }
       levelFourUpdate(gameState, leds);
     }
+    else{
+      finishedEntireGame(leds);
+    }
     gameLogic();
     FastLED.show();
   }
@@ -101,7 +104,7 @@ void handleSerialInput() {
       }
 
       // Validate the level number and proceed accordingly
-      if (level >= 1 && level <= 3) {
+      if (level >= 1 && level <= 4) {
         flashBlueAndOff();
         gameState.currentLevel = level;
         gameState.uponNewLevel = true;
@@ -109,6 +112,9 @@ void handleSerialInput() {
       } else {
         Serial.println("Invalid level number!");
       }
+    }
+    else if (command == "TURN OFF") {
+      turnOffGame(leds); // Call the function to turn off the game
     }
     // Handle other commands as needed
     else {
@@ -143,6 +149,8 @@ void resetGame() {
   Serial.println(gameState.score);
   Serial.print("LEVEL: ");
   Serial.println(gameState.currentLevel);
+  Serial.print("LIVES: ");
+  Serial.println(gameState.lives);
 }
 
 void gameLogic(){
@@ -163,7 +171,13 @@ void gameLogic(){
           leds[panel] = CRGB(0, 255, 0); // Turn on LED into green
         }
       } else {
-        gameState.lives --;
+        unsigned long currentTime = millis();
+        if (currentTime - gameState.lastLifeDecreaseTime > gameState.lifeDecreaseCooldown) {
+          gameState.lives--;
+          Serial.print("LIVES: ");
+          Serial.println(gameState.lives);
+          gameState.lastLifeDecreaseTime = currentTime;
+        }
         flashYellow(gameState, leds, panel);
         }
     } else {

@@ -36,6 +36,8 @@ struct GameState {
   unsigned long previousMillisYellow = 0;
   unsigned long interval = 1000;
   unsigned long yellowinterval = 100;
+  unsigned long lastLifeDecreaseTime = 0;
+  const unsigned long lifeDecreaseCooldown = 5000;
   int s0 = 12;
   int s1 = 11;
   int s2 = 10;

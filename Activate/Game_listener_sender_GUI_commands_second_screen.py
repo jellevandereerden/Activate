@@ -52,6 +52,10 @@ def update_display(data):
         parts = data.split(':')
         if len(parts) == 2 and parts[0].strip() == "SCORE":
             current_score.set(parts[1].strip())
+    elif "LIVES" in data:
+        parts = data.split(':')
+        if len(parts) == 2 and parts[0].strip() == "LIVES":
+            current_lives.set(parts[1].strip())
     elif "FAULT" in data:
         oops_label.set("OOPS!!!")  # Update using set() method of the StringVar
     elif "NO_DATA" in data:
@@ -94,9 +98,11 @@ def create_main_gui():
 
     global current_level
     global current_score
+    global current_lives
 
     current_level = ttk.StringVar(value="1")
     current_score = ttk.StringVar(value="0")
+    current_lives = ttk.StringVar(value="10")
     oops_label = ttk.StringVar(value="")
 
     style = ttk.Style()
@@ -113,6 +119,9 @@ def create_main_gui():
 
     ttk.Label(frame, text="Current Score:", style='TLabel').pack(pady=5)
     ttk.Label(frame, textvariable=current_score, style='TLabel').pack(pady=5)
+
+    ttk.Label(frame, text="Lives Left:", style='TLabel').pack(pady=5)
+    ttk.Label(frame, textvariable=current_lives, style='TLabel').pack(pady=5)
 
     ttk.Label(frame, text="Mistake:", style='TLabel').pack(pady=5)
     ttk.Label(frame, textvariable=oops_label, style='TLabel').pack(pady=5)
@@ -142,12 +151,16 @@ def create_secondary_gui():
     level1_command = "GOTO LEVEL 1"
     level2_command = "GOTO LEVEL 2"
     level3_command = "GOTO LEVEL 3"
+    level4_command = "GOTO LEVEL 4"
+    turn_off_command = "TURN OFF"  # Add turn off command
 
     # Create buttons with callbacks
     ttk.Button(second_window, text="Restart", style='TButton', command=lambda: send_command(ser, reset_command)).pack(pady=10)
     ttk.Button(second_window, text="Level 1", style='TButton', command=lambda: send_command(ser, level1_command)).pack(pady=10)
     ttk.Button(second_window, text="Level 2", style='TButton', command=lambda: send_command(ser, level2_command)).pack(pady=10)
     ttk.Button(second_window, text="Level 3", style='TButton', command=lambda: send_command(ser, level3_command)).pack(pady=10)
+    ttk.Button(second_window, text="Level 4", style='TButton', command=lambda: send_command(ser, level4_command)).pack(pady=10)
+    ttk.Button(second_window, text="Turn Off", style='TButton', command=lambda: send_command(ser, turn_off_command)).pack(pady=10)  # Add turn off button
 
 # Function to handle command line input
 def command_line_input():
@@ -161,7 +174,7 @@ def command_line_input():
     print("Exiting command line input.")
 
 if __name__ == "__main__":
-    serial_port = '/dev/ttyACM0'  # 'COM4' for Windows PC, '/dev/ttyACM0' for Pi.
+    serial_port = 'COM4'  # 'COM4' for Windows PC, '/dev/ttyACM0' for Pi.
     # Specify your desired serial port here
 
     # Initialize serial connection

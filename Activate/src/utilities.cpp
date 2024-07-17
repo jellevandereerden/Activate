@@ -44,6 +44,22 @@ void flashAllGreen(CRGB leds[]) {
     }
 }
 
+void finishedEntireGame(CRGB leds[]) {
+    static bool toggle = false;
+    while(true) {
+        for (int i = 0; i < NUM_LEDS; i++) {
+            if (toggle) {
+                leds[i] = CRGB(0, 255, 0); // Green color
+            } else {
+                leds[i] = CRGB(0, 0, 0); // Black (off)
+            }
+        }
+        FastLED.show();
+        toggle = !toggle;
+        delay(50);
+    }
+}
+
 void turnOffLeds(CRGB leds[]) {
     for (int i = 0; i < NUM_LEDS; i++) {
         leds[i] = CRGB(0, 0, 0);
@@ -99,4 +115,21 @@ void clearLevel(CRGB leds[], GameState &gameState){
 void setLEDColor(GameState &gameState, CRGB leds[], int row, int col, CRGB color) {
     int ledIndex = gameState.ledPins[row][col];
     leds[ledIndex] = color;
+}
+
+void turnOffGame(CRGB leds[]) {
+  // Assuming you have a function to set all LEDs to black
+  setAllLEDsToBlack(leds);
+  while (true) {
+    // Stay in this loop indefinitely
+    delay(1000);
+  }
+}
+
+// Function to set all LEDs to black
+void setAllLEDsToBlack(CRGB leds[]) {
+  for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i] = CRGB::Black;
+  }
+  FastLED.show();
 }

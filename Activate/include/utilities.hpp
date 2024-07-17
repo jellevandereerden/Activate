@@ -12,3 +12,6 @@ void levelSetup(GameState &gameState, CRGB leds[]);
 void flashYellow(GameState &gameState, CRGB leds[], int panel);
 void clearLevel(CRGB leds[], GameState &gameState);
 void setLEDColor(GameState &gameState, CRGB leds[], int row, int col, CRGB color);
+void finishedEntireGame(CRGB leds[]);
+void turnOffGame(CRGB leds[]);
+void setAllLEDsToBlack(CRGB leds[]);

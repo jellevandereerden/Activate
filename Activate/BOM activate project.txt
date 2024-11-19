@@ -1,0 +1,86 @@
+BOM:
+
+Belden 8723 (2-pair, 22 AWG, shielded) --> 30.5 meter:https://nl.farnell.com/belden/8723-060100/multipair-cable-2pair-30-5m-300v/dp/4168063
+
+
+Nieuwe Single addressable LEDS (voor elke cel) die nog steeds worden aangestuurd door een 5v, gnd en data rail.
+	- WS2812B 5050 Rgb Led Digital Panel Licht Matrix https://nl.aliexpress.com/item/1005002341181325.html?src=google&src=google&albch=shopping&acnt=272-267-0231&slnk=&plac=&mtctp=&albbt=Google_7_shopping&gclsrc=aw.ds&albagn=888888&isSmbAutoCall=false&needSmbHouyi=false&src=google&albch=shopping&acnt=272-267-0231&slnk=&plac=&mtctp=&albbt=Google_7_shopping&gclsrc=aw.ds&albagn=888888&ds_e_adid=&ds_e_matchtype=&ds_e_device=m&ds_e_network=x&ds_e_product_group_id=&ds_e_product_id=nl1005002341181325&ds_e_product_merchant_id=109326141&ds_e_product_country=NL&ds_e_product_language=nl&ds_e_product_channel=online&ds_e_product_store_id=&ds_url_v=2&albcp=20701318733&albag=&isSmbAutoCall=false&needSmbHouyi=false&gad_source=1&gclid=Cj0KCQjw-uK0BhC0ARIsANQtgGNDFlr7XJErP1A0kPglTyAYmqKxEQxI7YiVKcBpbfScaEHW7srDe1saAtMzEALw_wcB&aff_fcid=0e5594d4f881483ba27b571e6528b0cf-1721331399353-08582-UneMJZVf&aff_fsk=UneMJZVf&aff_platform=aaf&sk=UneMJZVf&aff_trace_key=0e5594d4f881483ba27b571e6528b0cf-1721331399353-08582-UneMJZVf&terminal_id=c	cd58c85120f472b82ad0d33f38eb145&afSmartRedirect=n
+Polycarbonaat platen 8 mm (voor elke cel)
+	-https://www.flexinplex.nl/polycarbonaat-plaat-uv-werend-helder-8mm?shape=rectangle&width=300&height=300
+Opal acryl sheet voor een diffuderend effect van het licht:
+Connectoren 7 polig. Met 2 voor elke microcontroller (3.6v en gnd), 3 voor elke LED (5v, gnd en data), 1 voor CAN bus, 1 voor 5v FSR sensor
+	-https://www.amazon.com.be/-/en/Connector-Pre-Crimped-Adapter-Housing-Compatible/dp/B08G188ZQ8/ref=asc_df_B08G188ZQ8/?tag=begogshpadsp-21&linkCode=df0&hvadid=633301209334&hvpos=&hvnetw=g&hvrand=410192496162488522&hvpone=&hvptwo=&hvqmt=&hvdev=m&hvdvcmdl=&hvlocint=&hvlocphy=1001170&hvtargid=pla-951403149113&psc=1&mcid=38810f0a9ed53e479168948528daad09
+T-tap connectors: voor elke FSR sensor binnen een tegel: https://wirefyshop.com/products/120-pcs-wirefy-t-tap-electrical-connectors-kit?variant=31899200225359
+
+
+
+
+
+
+
+
+
+
+
+ ----- IN CASE OF NEED FOR CAN, WHICH DOES NOT SEEM THE CASE ATM BECAUSE OF ROW/COL SCANNING -----
+Microcontoller (voor elke cel) die de FSR sensor kan lezen met een resistor, ADC en digital signal naar CAN bus:
+	- STM32F042G6U6 $2.08 pp --> https://nl.mouser.com/ProductDetail/STMicroelectronics/STM32F042G6U6?qs=4l9S5vBWkUK4FjFgFnucBQ%3D%3D&utm_id=9873309020&gad_source=1&gclid=EAIaIQobChMI4LCck92zhwMVcaaDBx15EB23EAAYASAAEgLgI_D_BwE&_gl=1*1n3xt7q*_ga*MTExNzY5MTc2OC4xNzIxNDEzNTQ5
+PCB (voor elke cel) die de microcontroller en voltage divider beheert. Ook moeten hier de aansluiting van de fSR sensor en de CANbus in verwerkt zitten.
+Power supply die tussen 2 en 3.6 volt genereert, die ik nodig heb voor het voeden van alle microcontrollers. 
+CAN Transceiver Module: Such as the MCP2551, TJA1050, or similar. This module will interface between the Teensy and the CAN bus.
+CAN Bus Wires: Twisted pair cables for CAN High (CAN_H) and CAN Low (CAN_L)
+CAN bus connector or CAN bus terminal block or CAN Bus Splitters (voor elke cel) die je gebruikt om af te branchen ipv te strippen en solderen
+
+Here is the wiring explained of teensy, CAN transceiver and CAN bus line:
+
+Wiring Diagram and Explanation
+Teensy to CAN Transceiver
+
+Teensy 4.1 Pins for CAN:
+
+CAN0_TX: This pin sends CAN data from the Teensy to the transceiver.
+CAN0_RX: This pin receives CAN data from the transceiver to the Teensy.
+CAN Transceiver Pins:
+
+TXD: Transmit Data pin (input for the transceiver).
+RXD: Receive Data pin (output for the transceiver).
+CAN_H: High CAN signal.
+CAN_L: Low CAN signal.
+VCC: Power supply pin (usually 5V or 3.3V).
+GND: Ground pin.
+Connections:
+
+Teensy CAN0_TX to CAN Transceiver TXD.
+Teensy CAN0_RX to CAN Transceiver RXD.
+Teensy GND to CAN Transceiver GND.
+Teensy VCC to CAN Transceiver VCC (if required by the transceiver).
+CAN Transceiver to CAN Bus
+
+CAN Transceiver Pins:
+
+CAN_H: Connects to the CAN High line of the bus.
+CAN_L: Connects to the CAN Low line of the bus.
+Connections:
+
+CAN Transceiver CAN_H to CAN Bus CAN_H.
+CAN Transceiver CAN_L to CAN Bus CAN_L.
+Termination Resistors:
+
+Place a 120-ohm resistor between CAN_H and CAN_L at each end of the CAN bus network to match impedance and prevent signal reflections.
+2. Practical Wiring Setup
+Detailed Steps
+Power and Ground:
+
+Connect the GND pin of the Teensy to the GND pin of the CAN transceiver.
+Connect the VCC pin of the Teensy to the VCC pin of the CAN transceiver if it requires power from the Teensy. Some CAN transceivers can be powered from 5V or 3.3V, depending on their specification.
+CAN Data Lines:
+
+Connect Teensy CAN0_TX to CAN Transceiver TXD.
+Connect Teensy CAN0_RX to CAN Transceiver RXD.
+CAN Bus Lines:
+
+Connect CAN Transceiver CAN_H to the CAN_H line of the CAN bus.
+Connect CAN Transceiver CAN_L to the CAN_L line of the CAN bus.
+Termination:
+
+At both ends of the CAN bus, place a 120-ohm resistor between CAN_H and CAN_L. This is crucial for maintaining signal integrity

@@ -24,6 +24,13 @@ struct GameState {
     {3, 8, 13},
     {4, 9, 14}
   };
+  int ledPinsSnaked[ROWS][COLS] = {
+    {0, 9, 10},
+    {1, 8, 11},
+    {2, 7, 12},
+    {3, 6, 13},
+    {4, 5, 14}
+  };
   bool redStates[ROWS][COLS] = {
     {false, false, false},
     {false, false, false},

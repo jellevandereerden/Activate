@@ -6,7 +6,7 @@
 static int currentRedRow = 0;
 static bool directionDown = true;
 
-void setColBlue(GameState &gameState, CRGB leds[], int row) {
+void setRowBlue(GameState &gameState, CRGB leds[], int row) {
   for (int col = 0; col < COLS; col++) {
     int ledIndex = gameState.ledPins[row][col];
     if (gameState.whiteStates[ledIndex]) {
@@ -18,7 +18,7 @@ void setColBlue(GameState &gameState, CRGB leds[], int row) {
   }
 }
 
-void moveToNextCol(GameState &gameState) {
+void moveToNextRow(GameState &gameState) {
   if (directionDown) {
     currentRedRow++;
     if (currentRedRow >= ROWS) {
@@ -34,7 +34,7 @@ void moveToNextCol(GameState &gameState) {
   }
 }
 
-void setColRed(GameState &gameState, CRGB leds[], int row) {
+void setRowRed(GameState &gameState, CRGB leds[], int row) {
   for (int col = 0; col < COLS; col++) {
     leds[gameState.ledPins[row][col]] = CRGB(255, 0, 0); // Set to red
     gameState.redStates[row][col] = true;
@@ -48,8 +48,8 @@ void levelOneUpdate(GameState &gameState, CRGB leds[]) {
     gameState.previousMillis = currentMillis;
 
     // printScore(gameState);
-    setColBlue(gameState, leds, currentRedRow);
-    moveToNextCol(gameState);
-    setColRed(gameState, leds, currentRedRow);
+    setRowBlue(gameState, leds, currentRedRow);
+    moveToNextRow(gameState);
+    setRowRed(gameState, leds, currentRedRow);
   }
 }

@@ -6,7 +6,7 @@ void setAllBlue(CRGB leds[]) {
     }
 }
 
-void setRandomWhite(GameState &gameState, CRGB leds[]) {
+void setRandomPink(GameState &gameState, CRGB leds[]) {
     int numbers[NUM_LEDS];
     for (int i = 0; i < NUM_LEDS; i++) {
         numbers[i] = i;
@@ -20,11 +20,11 @@ void setRandomWhite(GameState &gameState, CRGB leds[]) {
         numbers[j] = temp;
     }
 
-    // Set the first 5 LEDs to white
+    // Set the first 5 LEDs to pink
     for (size_t i = 0; i < sizeof(gameState.pointPanels) / sizeof(gameState.pointPanels[0]); i++) {
         gameState.pointPanels[i] = numbers[i];
-        leds[numbers[i]] = CRGB(255, 255, 255); // Set to white
-        gameState.whiteStates[numbers[i]] = true;
+        leds[numbers[i]] = CRGB(255, 105, 180); // Set to pink
+        gameState.pinkStates[numbers[i]] = true;
     }
 }
 
@@ -83,10 +83,10 @@ void levelSetup(GameState &gameState, CRGB leds[]) {
 
   // Initialize LED states
   for (int i = 0; i < NUM_LEDS; i++) {
-    gameState.whiteStates[i] = false;
+    gameState.pinkStates[i] = false;
   }
 
-  setRandomWhite(gameState, leds);
+  setRandomPink(gameState, leds);
 }
 
 void flashYellow(GameState &gameState, CRGB leds[], int panel) {

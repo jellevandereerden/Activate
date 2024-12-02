@@ -9,8 +9,8 @@ static bool directionRight = true;
 void setColBlue(GameState &gameState, CRGB leds[], int col) {
   for (int row = 0; row < ROWS; row++) {
     int ledIndex = gameState.ledPins[row][col];
-    if (gameState.whiteStates[ledIndex]) {
-      leds[ledIndex] = CRGB(255, 255, 255); // Set to white if it was originally white
+    if (gameState.pinkStates[ledIndex]) {
+      leds[ledIndex] = CRGB(255, 105, 180); // Set to pink if it was originally pink
     } else {
       leds[ledIndex] = CRGB(0, 0, 255); // Set to blue otherwise
     }

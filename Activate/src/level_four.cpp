@@ -13,8 +13,8 @@ void levelFourUpdate(GameState &gameState, CRGB leds[]) {
         int previousRow = currentRow;
         int previousCol = currentCol;
         int previousLedIndex = gameState.ledPins[previousRow][previousCol];
-        if (gameState.whiteStates[previousLedIndex]) {
-            setLEDColor(gameState, leds, previousRow, previousCol, CRGB(255, 255, 255)); // Set to white
+        if (gameState.pinkStates[previousLedIndex]) {
+            setLEDColor(gameState, leds, previousRow, previousCol, CRGB(255, 105, 180)); // Set to pink
         } else {
             setLEDColor(gameState, leds, previousRow, previousCol, CRGB(0, 0, 255)); // Set to blue
         }

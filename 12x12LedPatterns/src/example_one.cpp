@@ -4,18 +4,12 @@
 static int currentQuadrant = 0; // 0, 1, 2, 3 equals upperleft, upperright, bottomleft, bottomright
 static bool setupLevel = true;
 
-// void setAllBlue(CRGB leds[]) {
-//     for (int i = 0; i < NUM_LEDS; i++) {
-//         leds[i] = CRGB(0, 0, 255);
-//     }
-// }
-
 void setSomeGreen(GameState &gameState, CRGB leds[]) {
   for (int row = 0; row < ROWS; row++) {
     int ledIndex_1 = gameState.ledPinsSnaked[row][COLS/2-1];
     int ledIndex_2 = gameState.ledPinsSnaked[row][COLS/2];
-    leds[ledIndex_1] = CRGB(0, 255, 0);
-    leds[ledIndex_2] = CRGB(0, 255, 0);
+    leds[ledIndex_1] = CRGB::Green;
+    leds[ledIndex_2] = CRGB::Green;
     gameState.greenStates[row][COLS / 2 - 1] = true; // Track green LEDs
     gameState.greenStates[row][COLS / 2] = true; 
   }
@@ -23,8 +17,8 @@ void setSomeGreen(GameState &gameState, CRGB leds[]) {
   for (int col = 0; col < COLS; col++) {
     int ledIndex_1 = gameState.ledPinsSnaked[ROWS/2-1][col];
     int ledIndex_2 = gameState.ledPinsSnaked[ROWS/2][col];
-    leds[ledIndex_1] = CRGB(0, 255, 0);
-    leds[ledIndex_2] = CRGB(0, 255, 0);
+    leds[ledIndex_1] = CRGB::Green;
+    leds[ledIndex_2] = CRGB::Green;
     gameState.greenStates[ROWS/2-1][col] = true; // Track green LEDs
     gameState.greenStates[ROWS/2][col] = true; 
   }
@@ -33,7 +27,7 @@ void setSomeGreen(GameState &gameState, CRGB leds[]) {
 void levelOneUpdate(GameState &gameState, CRGB leds[]) {
   if (setupLevel) 
   {
-    setAllBlue(leds);
+    setAllBlack(leds);
     setSomeGreen(gameState, leds);
     setRandomPink(gameState, leds);
     setupLevel = false;
@@ -51,7 +45,7 @@ void levelOneUpdate(GameState &gameState, CRGB leds[]) {
           if (!gameState.greenStates[row][col])
           {
             int ledIndex = gameState.ledPinsSnaked[row][col];
-            leds[ledIndex] = CRGB(0, 255, 0);
+            leds[ledIndex] = CRGB::Red;
           }
         }
       }
@@ -59,10 +53,10 @@ void levelOneUpdate(GameState &gameState, CRGB leds[]) {
         for (int col = 0; col < COLS/2-1; col++) {
           int ledIndex = gameState.ledPinsSnaked[row][col];
           if (!gameState.pinkStates[row][col]) {            
-            leds[ledIndex] = CRGB(0, 0, 255); //set to Blue
+            leds[ledIndex] = CRGB::Black;
           }
           else{
-            leds[ledIndex] = CRGB(255, 105, 180); // Set to pink
+            leds[ledIndex] = CRGB::Pink;
           }
         }
       }
@@ -75,7 +69,7 @@ void levelOneUpdate(GameState &gameState, CRGB leds[]) {
           if (!gameState.greenStates[row][col])
           {
             int ledIndex = gameState.ledPinsSnaked[row][col];
-            leds[ledIndex] = CRGB(0, 255, 0);
+            leds[ledIndex] = CRGB::Red;
           }
         }
       }
@@ -83,10 +77,10 @@ void levelOneUpdate(GameState &gameState, CRGB leds[]) {
         for (int col = 0; col < COLS/2-1; col++) {
           int ledIndex = gameState.ledPinsSnaked[row][col];
           if (!gameState.pinkStates[row][col]) {            
-            leds[ledIndex] = CRGB(0, 0, 255); //set to Blue
+            leds[ledIndex] = CRGB::Black;
           }
           else{
-            leds[ledIndex] = CRGB(255, 105, 180); // Set to pink
+            leds[ledIndex] = CRGB::Pink;
           }
         }
       }
@@ -99,7 +93,7 @@ void levelOneUpdate(GameState &gameState, CRGB leds[]) {
           if (!gameState.greenStates[row][col])
           {
             int ledIndex = gameState.ledPinsSnaked[row][col];
-            leds[ledIndex] = CRGB(0, 255, 0);
+            leds[ledIndex] = CRGB::Red;
           }
         }
       }
@@ -107,10 +101,10 @@ void levelOneUpdate(GameState &gameState, CRGB leds[]) {
         for (int col = COLS/2; col < COLS; col++) {
           int ledIndex = gameState.ledPinsSnaked[row][col];
           if (!gameState.pinkStates[row][col]) {            
-            leds[ledIndex] = CRGB(0, 0, 255); //set to Blue
+            leds[ledIndex] = CRGB::Black;
           }
           else{
-            leds[ledIndex] = CRGB(255, 105, 180); // Set to pink
+            leds[ledIndex] = CRGB::Pink;
           }
         }
       }
@@ -123,7 +117,7 @@ void levelOneUpdate(GameState &gameState, CRGB leds[]) {
           if (!gameState.greenStates[row][col])
           {
             int ledIndex = gameState.ledPinsSnaked[row][col];
-            leds[ledIndex] = CRGB(0, 255, 0);
+            leds[ledIndex] = CRGB::Red;
           }
         }
       }
@@ -131,10 +125,10 @@ void levelOneUpdate(GameState &gameState, CRGB leds[]) {
         for (int col = 0; col < COLS/2-1; col++) {
           int ledIndex = gameState.ledPinsSnaked[row][col];
           if (!gameState.pinkStates[row][col]) {            
-            leds[ledIndex] = CRGB(0, 0, 255); //set to Blue
+            leds[ledIndex] = CRGB::Black;
           }
           else{
-            leds[ledIndex] = CRGB(255, 105, 180); // Set to pink
+            leds[ledIndex] = CRGB::Pink;
           }
         }
       }

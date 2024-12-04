@@ -1,8 +1,8 @@
 #include "utilities.hpp"
 
-void setAllBlue(CRGB leds[]) {
+void setAllBlack(CRGB leds[]) {
     for (int i = 0; i < NUM_LEDS; i++) {
-        leds[i] = CRGB(0, 0, 255);
+        leds[i] = CRGB::Black;
     }
 }
 
@@ -50,5 +50,28 @@ void setRandomPink(GameState &gameState, CRGB leds[]) {
 void checkNextLevel(GameState &gameState) {
     if (gameState.endGameCounter > 15) {
         gameState.currentLevel++;
+        gameState.endGameCounter = 0;
+        gameState.resetGreenStates();
+        gameState.resetPinkStates();
     }
 }
+
+void setOuterGreen(GameState &gameState, CRGB leds []) {
+    for (int row = 0; row < ROWS; row++) {
+        for (int col = 0; col < COLS; col++) {
+            if (row == 0 || row == ROWS - 1 || col == 0 || col == COLS - 1) {
+                leds[gameState.ledPinsSnaked[row][col]] = CRGB::Green;
+                gameState.greenStates[row][col] = true;
+            }
+        }
+    }
+}
+
+void clearAllLEDSToBlack(GameState &gameState, CRGB leds[]) {
+    for (int row = 1; row < (ROWS - 1); row++) {
+        for (int col = 1; col < (COLS - 1); col++) {
+            leds[gameState.ledPinsSnaked[row][col]] =! gameState.pinkStates[row][col] ? CRGB::Black : CRGB::Pink;
+        }
+    }
+}
+    

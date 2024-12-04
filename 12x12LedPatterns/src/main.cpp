@@ -2,6 +2,10 @@
 #include "game_state.hpp"
 // #include "utilities.hpp"
 #include "example_one.hpp"
+#include "example_two.hpp"
+#include "example_three.hpp"
+#include "example_four.hpp"
+#include "example_five.hpp"
 
 CRGB leds[NUM_LEDS];
 
@@ -25,7 +29,16 @@ void loop() {
     levelOneUpdate(gameState, leds);
   }
   else if(gameState.currentLevel == 2) {
-    //Yet to be implemented
+    levelTwoUpdate(gameState, leds);
+  }
+  else if(gameState.currentLevel == 3) {
+    levelThreeUpdate(gameState, leds);
+  }
+  else if(gameState.currentLevel == 4) {
+    levelFourUpdate(gameState, leds);
+  }
+  else if(gameState.currentLevel == 5) {
+    levelFiveUpdate(gameState, leds);
   }
   FastLED.show();
 }

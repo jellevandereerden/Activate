@@ -1,47 +1,71 @@
 import tkinter as tk
 
-# Create the main window
+# Constants for button states
+COLORS = ["gray", "red", "green"]
+
+class TileApp:
+    def __init__(self, root, rows=20, cols=20):
+        self.root = root
+        self.rows = rows
+        self.cols = cols
+        self.tiles = {}
+        self.red_tiles = []
+        self.green_tiles = []
+        self.current_color_index = 1
+
+        # Create a grid of buttons
+        for i in range(rows):
+            for j in range(cols):
+                btn = tk.Button(root, bg="gray", width=3, height=1, command=lambda x=i, y=j: self.toggle_tile(x, y))
+                btn.grid(row=i, column=j)
+                self.tiles[(i, j)] = btn
+
+        # Add an OK button
+        ok_button = tk.Button(root, text="OK", command=self.generate_output)
+        ok_button.grid(row=rows, columnspan=cols)
+
+    def toggle_tile(self, x, y):
+        """Toggle the color of a tile on click."""
+        btn = self.tiles[(x, y)]
+        self.current_color_index = (COLORS.index(btn["bg"]) + 1) % len(COLORS)
+        new_color = COLORS[self.current_color_index]
+        btn.configure(bg=new_color)
+
+    def generate_output(self):
+        """Generate and print the output for C++."""
+        self.red_tiles = []
+        self.green_tiles = []
+
+        # Group tiles by color
+        for (i, j), btn in self.tiles.items():
+            if btn["bg"] == "red":
+                self.red_tiles.append((i, j))
+            elif btn["bg"] == "green":
+                self.green_tiles.append((i, j))
+
+        # Format the output for C++
+        def format_cpp_output(tile_states):
+            formatted_output = "{"
+            grouped_tiles = []
+
+            # Simulate grouping for the demo
+            group_size = 3
+            for i in range(0, len(tile_states), group_size):
+                group = tile_states[i:i + group_size]
+                group_str = "{" + ", ".join(f"{{{x}, {y}}}" for x, y in group) + "}"
+                grouped_tiles.append(group_str)
+
+            formatted_output += ", ".join(grouped_tiles)
+            formatted_output += "}"
+            return formatted_output
+
+        red_cpp_output = f"std::vector<std::vector<std::pair<int, int>>> redTileStates = {format_cpp_output(self.red_tiles)};"
+        green_cpp_output = f"std::vector<std::vector<std::pair<int, int>>> greenTileStates = {format_cpp_output(self.green_tiles)};"
+
+        print(red_cpp_output)
+        print(green_cpp_output)
+
+# Run the application
 root = tk.Tk()
-root.title("12x12 Matrix")
-
-# Define the size of the matrix
-ROWS = 12
-COLS = 12
-
-# List to store the indices of the clicked buttons
-clicked_buttons = []
-
-# Define a callback function to handle button clicks
-def button_click(row, col):
-    # Toggle the button color between red and default
-    if (row, col) in clicked_buttons:
-        buttons[row][col].config(bg="SystemButtonFace")
-        clicked_buttons.remove((row, col))
-    else:
-        buttons[row][col].config(bg="red")
-        clicked_buttons.append((row, col))
-    # Print the list of all clicked button indices
-    print_clicked_buttons()
-
-# Function to print the clicked button indices
-def print_clicked_buttons():
-    for btn in clicked_buttons:
-        print(f"[{btn[0]}, {btn[1]}]", end=' ')
-    print()
-
-# Create a 2D list to store button references
-buttons = [[None for _ in range(COLS)] for _ in range(ROWS)]
-
-# Create and place buttons in the grid
-for row in range(ROWS):
-    for col in range(COLS):
-        # Create a button
-        button = tk.Button(root, text=f"{row},{col}", width=5, height=2,
-                           command=lambda r=row, c=col: button_click(r, c))
-        # Place the button in the grid
-        button.grid(row=row, column=col)
-        # Store the button reference
-        buttons[row][col] = button
-
-# Start the Tkinter event loop
+app = TileApp(root)
 root.mainloop()

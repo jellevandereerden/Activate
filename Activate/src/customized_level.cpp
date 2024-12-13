@@ -1,51 +1,34 @@
-#include <iostream>
-#include <vector>
-#include <FastLED.h> // Include the FastLED library for LED control
+#include "customized_level.hpp"
+#include <Arduino.h>
 
-#define NUM_LEDS 144 // Adjust based on your LED strip size
-CRGB leds[NUM_LEDS]; // Array to store LED states
+static int currentFrame = 0;
 
-int matrixWidth = 12; // Width of the matrix
+std::vector<std::vector<std::pair<int, int>>> redTileStates = {
+    {{0, 1}, {1, 1}, {1, 2}},
+    {{3, 5}, {6, 5}},
+    {{0, 1}, {1, 1}, {1, 2}, {6, 6}}
+};
 
-// Function to calculate the LED index based on row and column
-int calculateLEDIndex(int row, int col) {
-    return row * matrixWidth + col; // Adjust this if your layout differs
-}
+std::vector<std::vector<std::pair<int, int>>> greenTileStates = {
+    {{9, 1}},
+    {{3, 4}, {8, 5}, {8, 1}, {4, 2}, {14, 1}, {12, 2}},
+    {{0, 2}, {1, 6}, {3, 2}}
+};
 
-int main() {
-    // Initialize LED strip
-    FastLED.addLeds<WS2812, 6, GRB>(leds, NUM_LEDS);
-
-    // Input data: Each vector represents one saved state
-    std::vector<std::vector<std::pair<int, int>>> redTileStates = {
-        {{0, 1}, {1, 1}, {1, 2}},
-        {{3, 5}, {6, 5}},
-        {{0, 1}, {1, 1}, {1, 2}, {6, 6}}
-    };
-
-    // Process each state
-    for (const auto& state : redTileStates) {
-        // Turn LEDs red for each index in the current state
-        for (const auto& [row, col] : state) {
-            int ledIndex = calculateLEDIndex(row, col);
-            if (ledIndex < NUM_LEDS) { // Ensure index is within bounds
-                leds[ledIndex] = CRGB::Red;
-                redStates[row, col] = true; //RESET THEM BACK TO FALSE EACH TIME
-            }
+void levelCustomizedUpdate(GameState &gameState, CRGB leds[]) {
+    unsigned long currentMillis = millis();
+    if (currentMillis - gameState.previousMillis >= gameState.interval) {
+        gameState.previousMillis = currentMillis;
+        for (const auto& [row, col] : redTileStates[currentFrame]) {
+            setLEDColor(gameState, leds, row, col, CRGB(255, 0, 0));
+            // TODO: Update redstates
         }
 
-        // Show the updated LED colors
-        FastLED.show();
+        for (const auto& [row, col] : greenTileStates[currentFrame]) {
+            setLEDColor(gameState, leds, row, col, CRGB(0, 255, 0));
+            // TODO: Update greenstates
 
-        // Simulate some delay to observe changes (optional)
-        std::cout << "Processed a state.\n";
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        }
+        (currentFrame += 1) % greenTileStates.size();
     }
-
-    // Keep LEDs on (in case of single run)
-    while (true) {
-        FastLED.show();
-    }
-
-    return 0;
 }

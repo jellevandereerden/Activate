@@ -113,7 +113,7 @@ void clearLevel(CRGB leds[], GameState &gameState){
 }
 
 void setLEDColor(GameState &gameState, CRGB leds[], int row, int col, CRGB color) {
-    int ledIndex = gameState.ledPins[row][col];
+    int ledIndex = gameState.ledPinsSnaked[row][col];
     leds[ledIndex] = color;
 }
 
